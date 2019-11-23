@@ -1,0 +1,28 @@
+{
+  "name": "proyecto1",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon app.js",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.0",
+    "husky": "^3.1.0",
+    "nodemon": "^2.0.1",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "hooks": {
+    "pre-commit": "npm run lint && pretty-quick --staged"
+  }
+}

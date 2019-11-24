@@ -14,37 +14,52 @@ router.get('/form', (req, res) => {
     fields: {
       email: {
         required: true,
-        name: 'Email',
+        text: 'Email',
         type: 'email',
         validation: email => email.indexOf('@') !== -1
       },
       password: {
         required: true,
-        name: 'Password',
+        text: 'Password',
         type: 'password',
         validation: 'pass => pass.length > 7'
       },
+      country: {
+        required: true,
+        text: 'Country',
+        type: 'select',
+        options: [
+          {
+            value: 'Colombia',
+            text: 'Colombia',
+          },
+          {
+            value: 'España',
+            text: 'España',
+          }
+        ]
+      },
       passwordConfirmation: {
         required: true,
-        name: 'Password Confirmation',
+        text: 'Password Confirmation',
         type: 'password',
         validation: pass => pass.length > 7
       },
       name: {
         required: true,
-        name: 'Name',
+        text: 'Name',
         type: 'text',
         validation: name => Boolean(name.length)
       },
       birthdate: {
         required: true,
-        name: 'Bithdate',
+        text: 'Bithdate',
         type: 'date',
         validation: date => new Date(date) < Date.now()
       }
     }
   }
-  res.render('form', {title: 'Form', render_form: renderForm(form)})
+  res.render('form', { title: 'Form', render_form: renderForm(form) })
 })
 
 module.exports = router

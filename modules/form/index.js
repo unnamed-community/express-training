@@ -6,8 +6,9 @@ const filePath = path.resolve(__dirname, filename)
 
 module.exports = form => () => {
   Object.keys(form.fields).forEach(key => {
-    form.fields[key].validation = form.fields[key].validation.toString()
+    if (form.fields[key].validation)
+      form.fields[key].validation = form.fields[key].validation.toString()
   })
-  const html = pug.renderFile(filePath, {form})
+  const html = pug.renderFile(filePath, { form })
   return html
 }

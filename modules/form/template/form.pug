@@ -1,8 +1,15 @@
 #formapp
     form(method=form.method action=form.action)
         each field, index in form.fields
-            label= field.name
-            input(type=field.type name=field.name required=Boolean(field.required) v-model=index)
+            case field.type
+                when 'select'
+                    label= field.text
+                    select(name=index required=Boolean(field.required) v-model=index)
+                        each option in field.options
+                            option(value=option.value)= option.text
+                default
+                    label= field.text
+                    input(type=field.type name=index required=Boolean(field.required) v-model=index)
         input(type='submit' value=form.submitButton :disabled='disabled')
 script
     .
@@ -17,8 +24,12 @@ script
             data[key] = null;
             validations[key] = false;
             watch[key] = function(val) {
-                var validator = eval(fields[key].validation);
-                this.validations[key] = validator(val);
+                if(fields[key].validation){
+                    var validator =  eval(fields[key].validation);
+                    this.validations[key] = validator(val);
+                }else{
+                    this.validations[key] = true;
+                }
             }
         });
         if(Object.keys(validations)) data.validations = validations;

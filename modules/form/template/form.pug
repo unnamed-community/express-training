@@ -1,0 +1,35 @@
+#formapp
+    form(method=form.method action=form.action)
+        each field, index in form.fields
+            label= field.name
+            input(type=field.type name=field.name required=Boolean(field.required) v-model=index)
+        input(type='submit' value=form.submitButton :disabled='disabled')
+script
+    .
+        var fields =
+    != JSON.stringify(form.fields)
+    |;
+    .
+        var data = {};
+        var validations = {};
+        var watch = {};
+        Object.keys(fields).forEach(key => {
+            data[key] = null;
+            validations[key] = false;
+            watch[key] = function(val) {
+                var validator = eval(fields[key].validation);
+                this.validations[key] = validator(val);
+            }
+        });
+        if(Object.keys(validations)) data.validations = validations;
+
+        new Vue({
+            el: '#formapp',
+            data,
+            watch,
+            computed: {
+                disabled: function() {
+                    return Object.keys(this.validations).map(key => this.validations[key]).some(value => !value);
+                }
+            }
+        });
